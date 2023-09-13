@@ -1,9 +1,11 @@
-import Community from 'community/Community';
+// import Community from 'community/Community';
+import ChatBox from 'components/Chatting/ChatBox';
+import WritingCreate from 'components/Community/WritingCreate';
 import Footer from 'layouts/Footer';
 import Nav from 'layouts/Nav';
+import Community from 'page/community/Community';
 import MainPage from 'page/main/MainPage';
 import Profile from 'page/profile/Profile';
-import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 export default function Main() {
@@ -13,8 +15,9 @@ export default function Main() {
         <Nav />
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/community" element={<Community />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/Chatting" element={<ChatBox />} />
+          <Route path="/community" element={<Community />} />
         </Routes>
         <Footer />
       </div>

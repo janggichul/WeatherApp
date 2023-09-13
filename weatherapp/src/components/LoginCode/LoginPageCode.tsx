@@ -7,7 +7,11 @@ import { useRecoilState } from 'recoil';
 import { AccessTokenState, EmailState, isLoginState } from '../../atoms/atom';
 import Swal from 'sweetalert2';
 import { Auth } from '../../App';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from 'firebase/auth';
 
 export default function LoginPageCode() {
   const [email, setEmail] = useRecoilState<string | any>(EmailState);
@@ -19,10 +23,18 @@ export default function LoginPageCode() {
   const RESTAPI = process.env.REACT_APP_KaKaoRestApiKey;
   const REDIRECT_URI = process.env.REACT_APP_KaKaoRedirectURI;
 
-  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${RESTAPI}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  // const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${RESTAPI}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const handleKakaoLogin = () => {
-    window.location.href = KAKAO_AUTH_URI;
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(Auth, provider).then((result) => {
+      console.log('result', result);
+      const token: any = result.user.email;
+      if (result) {
+        localStorage.setItem('login', token);
+      }
+      navigate('/');
+    });
   };
 
   const handleLoginButton = (e: FormEvent<HTMLFormElement>) => {
@@ -104,6 +116,7 @@ export default function LoginPageCode() {
                     </StrokMainDiv>
                     <LoginButtonDiv>
                       <KakaoLoginButton
+                        className="group relative flex justify-center rounded-md border border-gray-300	bg-white py-2 px-4 text-sm font-medium text-black hover:bg-sky-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         type="button"
                         onClick={handleKakaoLogin}
                       >
@@ -111,7 +124,7 @@ export default function LoginPageCode() {
                           size={'20px'}
                           style={{ marginRight: '7px' }}
                         />{' '}
-                        카카오로 로그인
+                        구글로 로그인
                       </KakaoLoginButton>
                     </LoginButtonDiv>
                     <FindYourPW href="/ResetPassword">
@@ -399,7 +412,7 @@ const StrokTextDiv = styled.div`
 `;
 
 const KakaoLoginButton = styled.button`
-  background-color: #fee500;
+  /* background-color: #fee500;
   -webkit-appearance: none;
   border: none;
   box-sizing: border-box;
@@ -418,7 +431,7 @@ const KakaoLoginButton = styled.button`
   border-radius: 8px;
   color: #000000 85%;
   position: relative;
-  padding: 7px 16px;
+  padding: 7px 16px; */
 `;
 
 const FindYourPW = styled.a`

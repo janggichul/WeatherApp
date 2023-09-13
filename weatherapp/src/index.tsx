@@ -3,17 +3,23 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from 'recoil';
+import createStore from 'types/store';
+import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
+const store = createStore();
+
 root.render(
-  <RecoilRoot>
-    {/* <React.StrictMode> */}
-    <App />
-    {/* </React.StrictMode>, */}
-  </RecoilRoot>,
+  <Provider store={store}>
+    <RecoilRoot>
+      {/* <React.StrictMode> */}
+      <App />
+      {/* </React.StrictMode>, */}
+    </RecoilRoot>
+  </Provider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

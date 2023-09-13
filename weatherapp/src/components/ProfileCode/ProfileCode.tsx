@@ -1,7 +1,11 @@
 import { getAuth } from 'firebase/auth';
-import React from 'react';
 import profile from '../../assets/profile.png';
 import InformationCorrection from 'page/profile/InformationCorrection';
+import { useRecoilState } from 'recoil';
+import { isLoginState } from 'atoms/atom';
+import { Link } from 'react-router-dom';
+// import Swal from 'sweetalert2';
+
 export default function ProfileCode() {
   const auth = getAuth();
   const user: any = auth.currentUser;

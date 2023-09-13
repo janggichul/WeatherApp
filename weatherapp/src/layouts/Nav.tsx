@@ -67,18 +67,18 @@ export default function Nav() {
           className="flex flex-col bg-white overflow-scroll"
           style={{ width: '411px' }}
         >
-          <div className="flex flex-col">
-            <div className="mt-3 ml-32 flex">
+          <div className="flex flex-col j justify-center">
+            <div className="mt-3 ml-32 flex justify-around">
               <img src={logoImg} alt="" style={{ width: '120px' }} />
               {!isLogin ? (
                 <Link to="/Login">
-                  <button className="ml-12 mt-4 group rounded-2xl h-8 w-20 bg-green-500 font-bold text-lg text-white relative overflow-hidden">
+                  <button className="mt-4 group rounded-2xl h-8 w-20 bg-green-500 font-bold text-base text-white relative overflow-hidden">
                     로그인
                   </button>
                 </Link>
               ) : (
                 <button
-                  className="ml-12 mt-4 group rounded-2xl h-8 w-20 bg-green-500 font-bold text-lg text-white relative overflow-hidden"
+                  className="ml-12 mt-4 group rounded-2xl h-8 w-20 bg-green-500 font-bold text-base text-white relative overflow-hidden"
                   onClick={handleLogoutButton}
                 >
                   로그아웃
@@ -150,7 +150,7 @@ export default function Nav() {
                   </p>
                 </li>
               </Link>
-              <Link to="test1">
+              <Link to="/Chatting">
                 <li
                   className={`${
                     chatting

@@ -1,7 +1,25 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { isLoginState } from 'atoms/atom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import Swal from 'sweetalert2';
 
 export default function Footer() {
+  const [isLogin, setIsLogin] = useRecoilState<boolean>(isLoginState);
+  const navigate = useNavigate();
+
+  const handleProfileButton = () => {
+    if (!isLogin) {
+      Swal.fire({
+        text: '로그인을 한 후 이용 가능합니다.',
+        width: 350,
+        padding: 10,
+        confirmButtonText: '확인',
+      });
+    } else {
+      navigate('/Profile');
+    }
+  };
+
   return (
     <div className="flex items-center justify-center bg-gray-200 antialiased">
       <div
@@ -75,24 +93,25 @@ export default function Footer() {
               </svg>
               <p className="text-xxsm font-regular">Inbox</p>
             </div>
-            <Link to="/profile">
-              <div className="flex-col flex items-center text-gray-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-                <p className="text-xxsm font-regular">Profile</p>
-              </div>
-            </Link>
+            <button
+              className="flex-col flex items-center text-gray-400"
+              onClick={handleProfileButton}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <p className="text-xxsm font-regular">Profile</p>
+            </button>
           </div>
         </div>
       </div>

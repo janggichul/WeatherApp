@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Auth } from '../../App';
-import { getAuth, updatePassword } from 'firebase/auth';
-
+import { deleteUser, getAuth, updatePassword } from 'firebase/auth';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 export default function InformationCorrectionCode() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const email: any = localStorage.getItem('login');
+  const navigate = useNavigate();
+  const auth: any = Auth;
 
-  const auth = getAuth();
-
-  const user: any = auth.currentUser;
-  const newPassword: any = getAsecureRandomPassword();
-
-  updatePassword(user, newPassword)
-    .then((result) => {
-      //   console.log(result);
-    })
-    .catch((error) => {
-      //   console.log(error);
-    });
+  const handleWithdrawalButton = () => {
+    const user: any = auth.currentUser;
+    deleteUser(user)
+      .then((result) => {
+        localStorage.removeItem('login');
+        localStorage.removeItem('location');
+        navigate('/');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <Main>
@@ -78,9 +81,16 @@ export default function InformationCorrectionCode() {
                 </NickNameInfo>
               </InfoDiv>
               <KaKaoLoginDiv>
-                <SignUpButton type="submit">
+                <SignUpButton type="button">
                   <span style={{ fontSize: '14px', color: 'white' }}>
                     수정하기
+                  </span>
+                </SignUpButton>
+              </KaKaoLoginDiv>{' '}
+              <KaKaoLoginDiv>
+                <SignUpButton type="button" onClick={handleWithdrawalButton}>
+                  <span style={{ fontSize: '14px', color: 'white' }}>
+                    회원탈퇴
                   </span>
                 </SignUpButton>
               </KaKaoLoginDiv>{' '}
@@ -180,10 +190,10 @@ const TopMent = styled.h2`
   margin-bottom: 10px;
 `;
 const KaKaoLoginDiv = styled.div`
-  margin-top: 8px;
+  margin-top: 20px;
   margin-right: 40px;
   margin-left: 40px;
-  margin-bottom: 8px;
+  margin-bottom: -10px;
   flex: 0 0 auto;
   justify-content: flex-start;
   flex-direction: column;
@@ -191,6 +201,7 @@ const KaKaoLoginDiv = styled.div`
   display: flex;
   box-sizing: border-box;
   position: relative;
+  padding: 10px;
 `;
 const KakaoLoginButton = styled.button`
   background-color: #fee500;
